@@ -1,0 +1,14 @@
+{
+	"description": "A Node.js client for the Origami Repo Data service",
+	"origamiType": null,
+	"origamiVersion": 1,
+	"keywords": [
+		"origami"
+	],
+	"support": "https://github.com/Financial-Times/origami-repo-data-client-node/issues",
+	"supportStatus": "active",
+	"supportContact": {
+		"email": "origami.support@ft.com",
+		"slack": "financialtimes/ft-origami"
+	}
+}
