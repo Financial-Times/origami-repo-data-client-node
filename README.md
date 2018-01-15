@@ -67,7 +67,7 @@ This software is published by the Financial Times under the [MIT licence][licens
 
 
 [#ft-origami]: https://financialtimes.slack.com/messages/ft-origami/
-[api-docs]: http://financial-times.github.io/origami-repo-data-client-node
+[api-docs]: https://financial-times.github.io/origami-repo-data-client-node/
 [issues]: https://github.com/Financial-Times/origami-repo-data-client-node/issues
 [license]: http://opensource.org/licenses/MIT
 [node.js]: https://nodejs.org/
