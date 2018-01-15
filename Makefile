@@ -29,8 +29,10 @@ docs-precommit: docs
 
 # Set up documentation pre-commit hook
 .git/hooks/pre-commit:
-	@echo "#!/bin/sh\nmake docs-precommit" > .git/hooks/pre-commit
-	@chmod +x .git/hooks/pre-commit
+	@if [ -d .git/hooks ]; then \
+		echo "#!/bin/sh\nmake docs-precommit" > .git/hooks/pre-commit; \
+		chmod +x .git/hooks/pre-commit; \
+	fi
 
 
 # npm publishing tasks
