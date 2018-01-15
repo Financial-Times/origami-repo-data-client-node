@@ -1,0 +1,42 @@
+{
+  "name": "@financial-times/origami-repo-data-client",
+  "version": "0.0.0",
+  "description": "A Node.js client for the Origami Repo Data service",
+  "keywords": [
+    "origami",
+    "client"
+  ],
+  "license": "MIT",
+  "homepage": "http://financial-times.github.io/origami-repo-data-client-node",
+  "bugs": {
+    "url": "https://github.com/Financial-Times/origami-repo-data-client-node/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Financial-Times/origami-repo-data-client-node.git"
+  },
+  "engines": {
+    "node": "^8.6.0",
+    "npm": "^5"
+  },
+  "main": "./lib/client.js",
+  "dependencies": {
+    "@financial-times/origami-service-makefile": "^6.1.0",
+    "lodash": "^4.17.4",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "jsdoc": "^3.5.5",
+    "minami": "^1.2.3",
+    "mocha": "^4.0.1",
+    "mockery": "^2.1.0",
+    "nyc": "^11.2.1",
+    "proclaim": "^3.5.0",
+    "sinon": "^4.0.1"
+  },
+  "scripts": {
+    "postinstall": "make .git/hooks/pre-commit"
+  }
+}
