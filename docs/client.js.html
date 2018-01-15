@@ -64,6 +64,7 @@ class RepoDataClient {
 	 * Defaults to the value of the &lt;code>REPO_DATA_API_SECRET&lt;/code> environment variable.
 	 * @param {String} [options.apiUrl] - The URL of the Origami Repo Data service.
 	 * Defaults to the value of the &lt;code>REPO_DATA_API_URL&lt;/code> environment variable or the production service.
+	 * @returns {RepoDataClient} A new RepoDataClient instance.
 	 */
 	constructor(options) {
 		this.options = RepoDataClient.defaultOptions(options);
