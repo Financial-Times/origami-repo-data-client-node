@@ -31,7 +31,7 @@ const repos = await repoData.getRepos();
 
 ## Usage
 
-Running the Origami Service module requires [Node.js] 6.x and [npm]. You can install with:
+Using this module requires [Node.js] 6.x and [npm]. You can install with:
 
 ```sh
 npm install @financial-times/origami-repo-data-client
