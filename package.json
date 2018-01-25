@@ -38,6 +38,6 @@
     "sinon": "^4.0.1"
   },
   "scripts": {
-    "postinstall": "make .git/hooks/pre-commit"
+    "prepublish": "make .git/hooks/pre-commit"
   }
 }
