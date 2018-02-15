@@ -233,6 +233,56 @@ describe('lib/client', () => {
 
 		});
 
+		describe('.listImages(repoId, versionId, imageOptions)', () => {
+			let imageOptions;
+			let returnValue;
+			let response;
+
+			beforeEach(async () => {
+				response = {
+					mockResponse: true
+				};
+				imageOptions = {
+					sourceParam: 'mock-source-param',
+					otherParam: 'mock'
+				};
+				instance.get = sinon.stub().resolves(response);
+				returnValue = await instance.listImages('mock-repo-id', 'mock-version-id', imageOptions);
+			});
+
+			it('calls `instance.get` with the expected endpoint and query parameters', () => {
+				assert.calledOnce(instance.get);
+				assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/images', {
+					sourceParam: 'mock-source-param'
+				});
+			});
+
+			it('resolves with the response', () => {
+				assert.strictEqual(returnValue, response);
+			});
+
+			describe('when `imageOptions` is not defined', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listImages('mock-repo-id', 'mock-version-id');
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/images', {
+						sourceParam: 'origami-repo-data-client-node'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+		});
+
 		describe('.createKey(data)', () => {
 			let returnValue;
 			let response;
@@ -426,12 +476,12 @@ describe('lib/client', () => {
 					mockResponse: true
 				};
 				instance.request = sinon.stub().resolves(response);
-				returnValue = await instance.get('/mock-endpoint');
+				returnValue = await instance.get('/mock-endpoint', 'mock-query');
 			});
 
 			it('calls `instance.request` with the expected method and endpoint', () => {
 				assert.calledOnce(instance.request);
-				assert.calledWithExactly(instance.request, 'GET', '/mock-endpoint');
+				assert.calledWithExactly(instance.request, 'GET', '/mock-endpoint', 'mock-query');
 			});
 
 			it('resolves with the response', () => {
@@ -440,7 +490,7 @@ describe('lib/client', () => {
 
 		});
 
-		describe('.post(endpoint)', () => {
+		describe('.post(endpoint, data)', () => {
 			let returnValue;
 			let response;
 
@@ -454,7 +504,7 @@ describe('lib/client', () => {
 
 			it('calls `instance.request` with the expected method, endpoint, and data', () => {
 				assert.calledOnce(instance.request);
-				assert.calledWithExactly(instance.request, 'POST', '/mock-endpoint', 'mock-data');
+				assert.calledWithExactly(instance.request, 'POST', '/mock-endpoint', undefined, 'mock-data');
 			});
 
 			it('resolves with the response', () => {
@@ -486,7 +536,7 @@ describe('lib/client', () => {
 
 		});
 
-		describe('.request(method, endpoint, data)', () => {
+		describe('.request(method, endpoint, query, data)', () => {
 			let returnValue;
 			let response;
 
@@ -503,7 +553,7 @@ describe('lib/client', () => {
 					apiSecret: 'mock-api-secret',
 					apiUrl: 'https://mock.api.url'
 				};
-				returnValue = await instance.request('mock-method', '/mock-endpoint', 'mock-data');
+				returnValue = await instance.request('mock-method', '/mock-endpoint', 'mock-query', 'mock-data');
 			});
 
 			it('calls `request` with the expected configuration', () => {
@@ -511,6 +561,7 @@ describe('lib/client', () => {
 				assert.calledWithExactly(request, {
 					method: 'mock-method',
 					uri: 'https://mock.api.url/mock-endpoint',
+					qs: 'mock-query',
 					headers: {
 						'X-Api-Key': 'mock-api-key',
 						'X-Api-Secret': 'mock-api-secret'
