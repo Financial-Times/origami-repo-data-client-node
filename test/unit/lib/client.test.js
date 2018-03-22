@@ -283,6 +283,29 @@ describe('lib/client', () => {
 
 		});
 
+		describe('.listDependencies(repoId, versionId)', () => {
+			let returnValue;
+			let response;
+
+			beforeEach(async () => {
+				response = {
+					mockResponse: true
+				};
+				instance.get = sinon.stub().resolves(response);
+				returnValue = await instance.listDependencies('mock-repo-id', 'mock-version-id');
+			});
+
+			it('calls `instance.get` with the expected endpoint', () => {
+				assert.calledOnce(instance.get);
+				assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/dependencies');
+			});
+
+			it('resolves with the response', () => {
+				assert.strictEqual(returnValue, response);
+			});
+
+		});
+
 		describe('.createKey(data)', () => {
 			let returnValue;
 			let response;
