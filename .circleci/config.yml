@@ -55,7 +55,10 @@ workflows:
   version: 2
   test-and-publish:
     jobs:
-      - test
+      - test:
+          filters:
+            tags:
+              only: /v.*/
       - publish:
           requires:
             - test
