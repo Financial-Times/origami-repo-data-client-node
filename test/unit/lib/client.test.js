@@ -224,7 +224,32 @@ describe('lib/client', () => {
 
 			it('calls `instance.get` with the expected endpoint', () => {
 				assert.calledOnce(instance.get);
-				assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/demos');
+				assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/demos', {});
+			});
+
+			it('resolves with the response', () => {
+				assert.strictEqual(returnValue, response);
+			});
+
+		});
+
+		describe('.listDemos(repoId, versionId, brand)', () => {
+			let returnValue;
+			let response;
+
+			beforeEach(async () => {
+				response = {
+					mockResponse: true
+				};
+				instance.get = sinon.stub().resolves(response);
+				returnValue = await instance.listDemos('mock-repo-id', 'mock-version-id', 'mock-brand');
+			});
+
+			it('calls `instance.get` with the expected endpoint and query parameters', () => {
+				assert.calledOnce(instance.get);
+				assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/demos', {
+					brand: 'mock-brand'
+				});
 			});
 
 			it('resolves with the response', () => {
