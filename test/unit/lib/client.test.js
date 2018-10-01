@@ -69,7 +69,30 @@ describe('lib/client', () => {
 			it('resolves with the response', () => {
 				assert.strictEqual(returnValue, response);
 			});
+		});
 
+		describe('.listBrandedRepos(brand)', () => {
+			let returnValue;
+			let response;
+			let brand;
+
+			beforeEach(async () => {
+				response = {
+					mockResponse: true
+				};
+				brand = 'master';
+				instance.get = sinon.stub().resolves(response);
+				returnValue = await instance.listBrandedRepos(brand);
+			});
+
+			it('calls `instance.get` with the expected endpoint', () => {
+				assert.calledOnce(instance.get);
+				assert.calledWithExactly(instance.get, `/v1/repos?brand=${brand}`);
+			});
+
+			it('resolves with the response', () => {
+				assert.strictEqual(returnValue, response);
+			});
 		});
 
 		describe('.getRepo(repoId)', () => {
