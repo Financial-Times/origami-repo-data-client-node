@@ -63,12 +63,198 @@ describe('lib/client', () => {
 
 			it('calls `instance.get` with the expected endpoint', () => {
 				assert.calledOnce(instance.get);
-				assert.calledWithExactly(instance.get, '/v1/repos');
+				assert.calledWithExactly(instance.get, '/v1/repos', {});
 			});
 
 			it('resolves with the response', () => {
 				assert.strictEqual(returnValue, response);
 			});
+
+			describe('when `brand` is defined as a string', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						brand: 'mock-brand'
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						brand: 'mock-brand'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `brand` is defined as an array', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						brand: [
+							'mock-brand-1',
+							'mock-brand-2'
+						]
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						brand: 'mock-brand-1,mock-brand-2'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `brand` is defined as `null`', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						brand: null
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						brand: 'none'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `search` is defined as a string', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						search: 'mock-search'
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						q: 'mock-search'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `status` is defined as a string', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						status: 'mock-status'
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						status: 'mock-status'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `status` is defined as an array', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						status: [
+							'mock-status-1',
+							'mock-status-2'
+						]
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						status: 'mock-status-1,mock-status-2'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `type` is defined as a string', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						type: 'mock-type'
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						type: 'mock-type'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `type` is defined as an array', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						type: [
+							'mock-type-1',
+							'mock-type-2'
+						]
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						type: 'mock-type-1,mock-type-2'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
 		});
 
 		describe('.listBrandedRepos(brand)', () => {
@@ -87,12 +273,31 @@ describe('lib/client', () => {
 
 			it('calls `instance.get` with the expected endpoint', () => {
 				assert.calledOnce(instance.get);
-				assert.calledWithExactly(instance.get, `/v1/repos?brand=${brand}`);
+				assert.calledWithExactly(instance.get, '/v1/repos', {brand});
 			});
 
 			it('resolves with the response', () => {
 				assert.strictEqual(returnValue, response);
 			});
+
+			describe('when `brand` is not defined', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listBrandedRepos();
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
 		});
 
 		describe('.getRepo(repoId)', () => {
