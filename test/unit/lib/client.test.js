@@ -486,6 +486,54 @@ describe('lib/client', () => {
 
 		});
 
+		describe('.listBundles(repoId, versionId, language)', () => {
+			let returnValue;
+			let response;
+
+			beforeEach(async () => {
+				response = {
+					mockResponse: true
+				};
+				instance.get = sinon.stub().resolves(response);
+				returnValue = await instance.listBundles('mock-repo-id', 'mock-version-id', 'mock-language');
+			});
+
+			it('calls `instance.get` with the expected endpoint', () => {
+				assert.calledOnce(instance.get);
+				assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/bundles/mock-language', {});
+			});
+
+			it('resolves with the response', () => {
+				assert.strictEqual(returnValue, response);
+			});
+
+		});
+
+		describe('.listBundles(repoId, versionId, language, brand)', () => {
+			let returnValue;
+			let response;
+
+			beforeEach(async () => {
+				response = {
+					mockResponse: true
+				};
+				instance.get = sinon.stub().resolves(response);
+				returnValue = await instance.listBundles('mock-repo-id', 'mock-version-id', 'mock-language', 'mock-brand');
+			});
+
+			it('calls `instance.get` with the expected endpoint and query parameters', () => {
+				assert.calledOnce(instance.get);
+				assert.calledWithExactly(instance.get, '/v1/repos/mock-repo-id/versions/mock-version-id/bundles/mock-language', {
+					brand: 'mock-brand'
+				});
+			});
+
+			it('resolves with the response', () => {
+				assert.strictEqual(returnValue, response);
+			});
+
+		});
+
 		describe('.listImages(repoId, versionId, imageOptions)', () => {
 			let imageOptions;
 			let returnValue;
