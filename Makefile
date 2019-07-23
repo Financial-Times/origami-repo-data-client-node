@@ -20,7 +20,7 @@ include node_modules/@financial-times/origami-service-makefile/index.mk
 # Regenerate documentation
 docs:
 	@rm -rf docs
-	@jsdoc --configure .jsdoc.json
+	@npx jsdoc --configure .jsdoc.json
 	@$(TASK_DONE)
 
 # Documentation pre-commit hook
