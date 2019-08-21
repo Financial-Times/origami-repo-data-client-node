@@ -15,7 +15,7 @@ const repoData = new RepoDataClient({
     apiSecret: 'xxXXXxxXXXXXXXXXxxxxxxxXXXxXxXXXXXXxxXXx'
 });
 
-const repos = await repoData.getRepos();
+const repos = await repoData.listRepos();
 ```
 
 
