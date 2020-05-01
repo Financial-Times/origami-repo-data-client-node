@@ -24,7 +24,8 @@
     "@financial-times/origami-service-makefile": "^6.1.0",
     "lodash": "^4.17.5",
     "request": "^2.87.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "snyk": "^1.316.2"
   },
   "devDependencies": {
     "eslint": "^4.9.0",
@@ -38,6 +39,8 @@
     "sinon": "^4.0.1"
   },
   "scripts": {
-    "prepublish": "make .git/hooks/pre-commit"
-  }
+    "prepublish": "npm run snyk-protect && make .git/hooks/pre-commit",
+    "snyk-protect": "snyk protect"
+  },
+  "snyk": true
 }
