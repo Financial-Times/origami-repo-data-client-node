@@ -4,7 +4,6 @@
 A Node.js client for the Origami Repo Data service.
 
 [![NPM version](https://img.shields.io/npm/v/@financial-times/origami-repo-data-client.svg)](https://www.npmjs.com/package/@financial-times/origami-repo-data-client)
-[![Build status](https://img.shields.io/circleci/project/Financial-Times/origami-repo-data-client-node.svg)](https://circleci.com/gh/Financial-Times/origami-repo-data-client-node)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)][license]
 
 ```js
