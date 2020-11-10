@@ -1,6 +1,6 @@
 {
 	"description": "A Node.js client for the Origami Repo Data service",
-	"origamiType": null,
+	"origamiType": "library",
 	"origamiVersion": 1,
 	"keywords": [
 		"origami"
