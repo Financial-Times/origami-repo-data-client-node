@@ -36,7 +36,7 @@
     "npm-prepublish": "^1.2.3",
     "nyc": "^15.1.0",
     "proclaim": "^3.5.0",
-    "sinon": "^9.0.2"
+    "sinon": "^10.0.0"
   },
   "scripts": {
     "prepublish": "npm run snyk-protect && make .git/hooks/pre-commit",
