@@ -117,6 +117,53 @@ describe('lib/client', () => {
 
 			});
 
+			describe('when `origamiVersion` is defined as a string', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						origamiVersion: '2.0'
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						origamiVersion: '2.0'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
+			describe('when `origamiVersion` is defined as an array', () => {
+
+				beforeEach(async () => {
+					instance.get.resetHistory();
+					returnValue = await instance.listRepos({
+						origamiVersion: [
+							'1',
+							'2.0'
+						]
+					});
+				});
+
+				it('calls `instance.get` with the expected endpoint and query parameters', () => {
+					assert.calledOnce(instance.get);
+					assert.calledWithExactly(instance.get, '/v1/repos', {
+						origamiVersion: '1,2.0'
+					});
+				});
+
+				it('resolves with the response', () => {
+					assert.strictEqual(returnValue, response);
+				});
+
+			});
+
 			describe('when `brand` is defined as `null`', () => {
 
 				beforeEach(async () => {
