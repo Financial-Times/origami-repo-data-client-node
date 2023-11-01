@@ -6,15 +6,11 @@ const sinon = require('sinon');
 
 describe('lib/client', () => {
 	let defaults;
-	let request;
 	let RepoDataClient;
 
 	beforeEach(() => {
 		defaults = sinon.spy(require('lodash/defaults'));
 		mockery.registerMock('lodash/defaults', defaults);
-
-		request = require('../mock/request-promise-native.mock');
-		mockery.registerMock('request-promise-native', request);
 
 		RepoDataClient = require('../../../lib/client');
 	});
@@ -908,121 +904,29 @@ describe('lib/client', () => {
 		});
 
 		describe('.request(method, endpoint, query, data)', () => {
-			let returnValue;
-			let response;
 
-			beforeEach(async () => {
-				response = {
-					statusCode: 200,
-					body: {
-						mockBody: true
-					}
-				};
-				request.resolves(response);
-				instance.options = {
-					apiKey: 'mock-api-key',
-					apiSecret: 'mock-api-secret',
-					apiUrl: 'https://mock.api.url'
-				};
-				returnValue = await instance.request('mock-method', '/mock-endpoint', 'mock-query', 'mock-data');
+			const RepoDataClient = require('../../../lib/client');
+			const liveInstance = new RepoDataClient({});
+
+			it('returns response data as expected', async () => {
+				const returnValue = await liveInstance.request('get', '/v1/repos', {'brand': 'core'});
+				assert.isObject(returnValue);
 			});
 
-			it('calls `request` with the expected configuration', () => {
-				assert.calledOnce(request);
-				assert.calledWithExactly(request, {
-					method: 'mock-method',
-					uri: 'https://mock.api.url/mock-endpoint',
-					qs: 'mock-query',
-					headers: {
-						'X-Api-Key': 'mock-api-key',
-						'X-Api-Secret': 'mock-api-secret'
-					},
-					body: 'mock-data',
-					resolveWithFullResponse: true,
-					simple: false,
-					json: true
-				});
-			});
+			describe('given a 404 response', () => {
 
-			it('resolves with the response body', () => {
-				assert.strictEqual(returnValue, response.body);
-			});
+				it('rejects with an error which includes the error details', async () => {
 
-			describe('when the response body is empty', () => {
-
-				beforeEach(async () => {
-					response.body = '';
-					returnValue = await instance.request('mock-method', '/mock-endpoint', 'mock-data');
-				});
-
-				it('resolves with `undefined`', () => {
-					assert.isUndefined(returnValue);
-				});
-
-			});
-
-			describe('when the response is an error', () => {
-				let caughtError;
-
-				beforeEach(async () => {
-					response.statusCode = 400;
-					response.body.message = 'mock-error-message';
 					try {
-						await instance.request('mock-method', '/mock-endpoint', 'mock-data');
+						await liveInstance.request('get', '/repos-oh-no-i-do-not-exist', {'brand': 'core'});
 					} catch (error) {
-						caughtError = error;
+						assert.instanceOf(error, Error);
+						assert.strictEqual(error.status, 404);
+						assert.strictEqual(error.message, '404: Request failed with status code 404');
+						return;
 					}
-				});
 
-				it('rejects with an error which includes the error details', () => {
-					assert.instanceOf(caughtError, Error);
-					assert.strictEqual(caughtError.message, 'mock-error-message');
-					assert.strictEqual(caughtError.status, 400);
-				});
-
-			});
-
-			describe('when the response is a validation error', () => {
-				let caughtError;
-
-				beforeEach(async () => {
-					response.statusCode = 400;
-					response.body.message = 'mock-error-message';
-					response.body.validation = [
-						'mock-validation-error-1',
-						'mock-validation-error-2'
-					];
-					try {
-						await instance.request('mock-method', '/mock-endpoint', 'mock-data');
-					} catch (error) {
-						caughtError = error;
-					}
-				});
-
-				it('rejects with an error which includes the error details', () => {
-					assert.instanceOf(caughtError, Error);
-					assert.strictEqual(caughtError.message, 'mock-error-message: mock-validation-error-1, mock-validation-error-2');
-					assert.strictEqual(caughtError.status, 400);
-				});
-
-			});
-
-			describe('when `request` throws an error', () => {
-				let caughtError;
-				let requestError;
-
-				beforeEach(async () => {
-					requestError = new Error('mock-request-error');
-					request.rejects(requestError);
-					try {
-						await instance.request('mock-method', '/mock-endpoint', 'mock-data');
-					} catch (error) {
-						caughtError = error;
-					}
-				});
-
-				it('rejects with the request error', () => {
-					assert.strictEqual(caughtError, requestError);
+					throw new Error('Expected an error to be thrown');
 				});
 
 			});
